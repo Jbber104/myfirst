@@ -5,16 +5,30 @@
     <title>إرسال رسالة للطلاب</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
             padding: 5px;
+        }
+        textarea {
+            width: 100%;
+            max-width: 600px;
+        }
+        button {
+            margin-top: 10px;
+            margin-right: 10px;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
     <h2>📂 اختيار ملف Excel:</h2>
     <input type="file" id="fileInput" />
+    <br><br>
     <table id="studentTable">
         <thead>
             <tr><th>👤 الاسم الكامل</th><th>📞 رقم الهاتف</th></tr>
@@ -23,11 +37,14 @@
     </table>
 
     <h3>✉️ نص الرسالة:</h3>
-    <textarea id="message" rows="4" cols="50" placeholder="اكتب نص الرسالة (مثال: مرحبا {name})"></textarea>
+    <textarea id="message" rows="4" placeholder="اكتب نص الرسالة (مثال: مرحبا {name})"></textarea>
     <br><br>
+
     <button id="sendButton">🚀 إرسال الرسائل</button>
+    <button id="addManualButton">➕ إضافة رقم يدويًا</button>
 
     <script>
+        // قراءة ملف Excel وعرض البيانات في الجدول
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const reader = new FileReader();
@@ -59,9 +76,20 @@
             reader.readAsArrayBuffer(file);
         });
 
+        // إرسال الرسائل عبر الخادم
         document.getElementById('sendButton').addEventListener('click', function() {
             const messageTemplate = document.getElementById('message').value;
             const rows = document.querySelectorAll('#studentTable tbody tr');
+
+            if (rows.length === 0) {
+                alert('❗ لا يوجد أرقام لإرسال الرسائل إليها.');
+                return;
+            }
+
+            if (!messageTemplate.trim()) {
+                alert('❗ يرجى كتابة نص الرسالة أولاً.');
+                return;
+            }
 
             rows.forEach(row => {
                 const name = row.cells[0].innerText;
@@ -87,7 +115,27 @@
                 });
             });
 
-            alert('🚀 تم إرسال جميع الرسائل (شاهد النتائج في الكونسول)');
+            alert('🚀 تم إرسال جميع الرسائل (شاهد النتائج في الكونسول).');
+        });
+
+        // إضافة رقم يدويًا
+        document.getElementById('addManualButton').addEventListener('click', function() {
+            const name = prompt("📝 أدخل اسم الطالب:");
+            if (!name || !name.trim()) {
+                alert("❗ لم يتم إدخال اسم صحيح.");
+                return;
+            }
+
+            const phone = prompt("📞 أدخل رقم الهاتف:");
+            if (!phone || !phone.trim()) {
+                alert("❗ لم يتم إدخال رقم هاتف صحيح.");
+                return;
+            }
+
+            const tbody = document.querySelector('#studentTable tbody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${name}</td><td>${phone}</td>`;
+            tbody.appendChild(tr);
         });
     </script>
 </body>

@@ -1,18 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta charset='UTF-8'>
-  <title>Jbber104 Portfolio</title>
+  <meta charset="UTF-8">
+  <title>weclosethegap</title>
   <style>
-    body { font-family: Arial; background: #f0f0f0; text-align: center; padding: 50px; }
-    h1 { color: #333; }
-    a { color: #007bff; text-decoration: none; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+    }
+
+    /* 🌈 بانر الموقع */
+    .banner {
+      height: 100vh; /* يغطي الشاشة بالكامل */
+      background: linear-gradient(135deg, #00c6ff, #0072ff, #cadef7);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .banner h1 {
+      font-size: 4em;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      margin-bottom: 20px;
+      border-top: 3px solid rgba(255,255,255,0.8);
+      border-bottom: 3px solid rgba(255,255,255,0.8);
+      padding: 10px 40px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+    }
+
+    .banner p {
+      font-size: 1.3em;
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    /* ✨ قسم المحتوى أسفل البانر */
+    .content {
+      background: white;
+      padding: 60px 80px;
+      text-align: left;
+      width: 70%;
+      margin: -80px auto 100px auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    }
+
+    .content h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      color: #555;
+      font-size: 1.1em;
+      line-height: 1.7;
+    }
   </style>
 </head>
-<body>
-  <h1>👋 أهلاً أنا Jbber104</h1>
-  <p>مطور مبتدئ أحب البرمجة والتصميم.</p>
-  <a href='https://github.com/Jbber104' target='_blank'>صفحة GitHub الخاصة بي</a>
-</body>
-</html>" > index.html
 
+<body>
+  <!-- 🏙️ البانر الرئيسي -->
+  <div class="banner">
+    <h1>weclosethegap</h1>
+    <p>Eine Initiative, die Menschen durch Bildung, Kreativität und Dialog verbindet.</p>
+  </div>
+
+  <!-- 🇩🇪 قسم Über uns -->
+  <div class="content">
+    <h2>Über uns</h2>
+    <p>
+      <b>We Close The Gap</b> ist eine gemeinschaftsorientierte Initiative, 
+      die Menschen durch Bildung, Kreativität und Dialog miteinander verbindet.  
+      Wir glauben, dass jede Person eine Geschichte zu erzählen hat – 
+      und dass wir gemeinsam Brücken des Verständnisses zwischen Kulturen und Generationen bauen können.  
+      Unser Ziel ist es, Räume zu schaffen, in denen Ideen, Erfahrungen und Talente aufeinandertreffen.
+    </p>
+  </div>
+</body>
+</html>

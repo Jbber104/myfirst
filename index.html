@@ -1,90 +1,17 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+echo "<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>نَسُدّ الفجوة</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset='UTF-8'>
+  <title>Jbber104 Portfolio</title>
   <style>
-    body { font-family: system-ui, Arial, sans-serif; margin: 0; padding: 2rem; background: #f7f8fa; }
-    .wrap { max-width: 720px; margin: 0 auto; background: #fff; padding: 2rem; border-radius: 14px; border: 1px solid #e5e7eb; }
-    h1 { margin: 0 0 0.5rem; font-size: 2rem; color: #111827; }
-    p { margin: 0.5rem 0 1rem; color: #374151; }
-    .row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; justify-content: flex-start; }
-    .btn { border: 1px solid #d1d5db; background: #fff; padding: .5rem .9rem; border-radius: .65rem; cursor: pointer; }
-    .btn:hover { background: #f3f4f6; }
-    .btn.primary { background: #111827; color: #fff; border-color: #111827; }
-    .pill { display:inline-block; padding:.25rem .6rem; border:1px solid #e5e7eb; border-radius:999px; font-size:.9rem; }
-    .muted { color:#6b7280; font-size:.95rem; }
+    body { font-family: Arial; background: #f0f0f0; text-align: center; padding: 50px; }
+    h1 { color: #333; }
+    a { color: #007bff; text-decoration: none; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- أزرار تبديل اللغة -->
-    <div class="row" style="justify-content: space-between; margin-bottom: 1rem;">
-      <div class="row">
-        <button class="btn" onclick="setLanguage('ar')">العربية</button>
-        <button class="btn" onclick="setLanguage('de')">Deutsch</button>
-      </div>
-      <span class="pill" id="langLabel">العربية</span>
-    </div>
-
-    <!-- المحتوى القابل للترجمة -->
-    <h1 data-i18n="title">نَسُدّ الفجوة</h1>
-    <p class="muted" data-i18n="tagline">نربط اللغة والمهارات بالفرص.</p>
-
-    <div style="margin-top:1rem;">
-      <button class="btn primary" data-i18n="cta">انضم إلينا</button>
-      <button class="btn" data-i18n="contact">تواصل معنا</button>
-    </div>
-  </div>
-
-  <script>
-    // نصوص الترجمة
-    const i18n = {
-      ar: {
-        langLabel: "العربية",
-        title: "نَسُدّ الفجوة",
-        tagline: "نربط اللغة والمهارات بالفرص.",
-        cta: "انضم إلينا",
-        contact: "تواصل معنا",
-        htmlLang: "ar",
-        htmlDir: "rtl",
-        pageTitle: "نَسُدّ الفجوة",
-      },
-      de: {
-        langLabel: "Deutsch",
-        title: "We Close The Gap",
-        tagline: "Wir überbrücken Sprache, Fähigkeiten und Chancen.",
-        cta: "Mitmachen",
-        contact: "Kontakt",
-        htmlLang: "de",
-        htmlDir: "ltr",
-        pageTitle: "We Close The Gap",
-      }
-    };
-
-    function setLanguage(lang) {
-      const dict = i18n[lang] || i18n.ar;
-
-      // غيّر لغة/اتجاه الصفحة (مهم لRTL)
-      document.documentElement.lang = dict.htmlLang;
-      document.documentElement.dir = dict.htmlDir;
-
-      // غيّر عنوان التاب في المتصفح
-      document.title = dict.pageTitle;
-
-      // غيّر شارة اللغة في الأعلى
-      document.getElementById('langLabel').textContent = dict.langLabel;
-
-      // طبّق النصوص على العناصر التي تحمل data-i18n
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-    }
-
-    // اللغة الافتراضية عند فتح الصفحة
-    setLanguage('ar');
-  </script>
+  <h1>👋 أهلاً أنا Jbber104</h1>
+  <p>مطور مبتدئ أحب البرمجة والتصميم.</p>
+  <a href='https://github.com/Jbber104' target='_blank'>صفحة GitHub الخاصة بي</a>
 </body>
-</html>
+</html>" > index.html

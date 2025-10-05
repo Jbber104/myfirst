@@ -1,93 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>weclosethegap</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* Reset بسيط */
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;text-align:center;color:#333}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      text-align: center;
+    /* بانر */
+    header.banner{
+      min-height:100vh;
+      background:linear-gradient(135deg,#00c6ff,#0072ff,#cadef7);
+      color:#fff;
+      display:flex;flex-direction:column;justify-content:flex-start;align-items:center;
+      text-shadow:0 2px 6px rgba(0,0,0,.3);padding:0 16px
     }
+    .banner h1{
+      font-size:clamp(2rem,6vw,4rem);
+      text-transform:uppercase;letter-spacing:5px;margin-bottom:20px;
+      border-top:3px solid rgba(255,255,255,.85);
+      border-bottom:3px solid rgba(255,255,255,.85);
+      padding:10px 40px;background:rgba(255,255,255,.15);border-radius:10px
+    }
+    .banner p{
+      font-size:clamp(1rem,2.2vw,1.3rem);
+      max-width:700px;line-height:1.6;margin:0 auto
+    }
+    .btn{
+      margin-top:24px;padding:12px 22px;background:#fff;color:#0b63ff;
+      text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;
+      box-shadow:0 6px 16px rgba(0,0,0,.15)
+    }
+    .btn:hover{filter:brightness(.95)}
 
-    /* 🌈 بانر الموقع */
-    .banner {
-      height: 100vh; /* يغطي الشاشة بالكامل */
-      background: linear-gradient(135deg, #00c6ff, #0072ff, #cadef7);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    /* محتوى */
+    section.content{
+      background:#fff;padding:clamp(32px,6vw,60px) clamp(20px,6vw,80px);
+      text-align:left;width:min(90%,900px);
+      margin:-80px auto 100px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.15)
     }
-
-    .banner h1 {
-      font-size: 4em;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      margin-bottom: 20px;
-      border-top: 3px solid rgba(255,255,255,0.8);
-      border-bottom: 3px solid rgba(255,255,255,0.8);
-      padding: 10px 40px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 10px;
-    }
-
-    .banner p {
-      font-size: 1.3em;
-      max-width: 700px;
-      line-height: 1.6;
-    }
-
-    /* ✨ قسم المحتوى أسفل البانر */
-    .content {
-      background: white;
-      padding: 60px 80px;
-      text-align: left;
-      width: 70%;
-      margin: -80px auto 100px auto;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.15);
-    }
-
-    .content h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .content p {
-      color: #555;
-      font-size: 1.1em;
-      line-height: 1.7;
-    }
+    .content h2{text-align:center;color:#333;margin-bottom:16px;font-size:clamp(1.4rem,3.5vw,2rem)}
+    .content p{color:#555;font-size:clamp(1rem,2.5vw,1.1rem);line-height:1.7}
   </style>
 </head>
-
 <body>
-  <!-- 🏙️ البانر الرئيسي -->
-  <div class="banner">
+  <!-- البانر -->
+  <header class="banner">
     <h1>weclosethegap</h1>
     <p>Eine Initiative, die Menschen durch Bildung, Kreativität und Dialog verbindet.</p>
-  </div>
+    <a class="btn" href="#about">Mehr erfahren</a>
+  </header>
 
-  <!-- 🇩🇪 قسم Über uns -->
-  <div class="content">
+  <!-- Über uns -->
+  <section id="about" class="content">
     <h2>Über uns</h2>
     <p>
-      <b>We Close The Gap</b> ist eine gemeinschaftsorientierte Initiative, 
-      die Menschen durch Bildung, Kreativität und Dialog miteinander verbindet.  
-      Wir glauben, dass jede Person eine Geschichte zu erzählen hat – 
-      und dass wir gemeinsam Brücken des Verständnisses zwischen Kulturen und Generationen bauen können.  
-      Unser Ziel ist es, Räume zu schaffen, in denen Ideen, Erfahrungen und Talente aufeinandertreffen.
+      <b>We Close The Gap</b> ist eine gemeinschaftsorientierte Initiative, die Menschen
+      durch Bildung, Kreativität und Dialog miteinander verbindet. Wir glauben, dass jede
+      Person eine Geschichte zu erzählen hat – und dass wir gemeinsam Brücken des Verständnisses
+      zwischen Kulturen und Generationen bauen können. Unser Ziel ist es, Räume zu schaffen,
+      in denen Ideen, Erfahrungen und Talente aufeinandertreffen.
     </p>
-  </div>
+  </section>
 </body>
 </html>

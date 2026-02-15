@@ -2,68 +2,242 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>weclosethegap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geldabrechnung</title>
   <style>
-    /* Reset بسيط */
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;text-align:center;color:#333}
-
-    /* بانر */
-    header.banner{
-      min-height:100vh;
-      background:linear-gradient(135deg,#00c6ff,#0072ff,#cadef7);
-      color:#fff;
-      display:flex;flex-direction:column;justify-content:flex-start;align-items:center;
-      text-shadow:0 2px 6px rgba(0,0,0,.3);padding:0 16px
-    }
-    .banner h1{
-      font-size:clamp(2rem,6vw,4rem);
-      text-transform:uppercase;letter-spacing:5px;margin-bottom:20px;
-      border-top:3px solid rgba(255,255,255,.85);
-      border-bottom:3px solid rgba(255,255,255,.85);
-      padding:10px 40px;background:rgba(255,255,255,.15);border-radius:10px
-    }
-    .banner p{
-      font-size:clamp(1rem,2.2vw,1.3rem);
-      max-width:700px;line-height:1.6;margin:0 auto
-    }
-    .btn{
-      margin-top:24px;padding:12px 22px;background:#fff;color:#0b63ff;
-      text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;
-      box-shadow:0 6px 16px rgba(0,0,0,.15)
-    }
-    .btn:hover{filter:brightness(.95)}
-
-    /* محتوى */
-    section.content{
-      background:#fff;padding:clamp(32px,6vw,60px) clamp(20px,6vw,80px);
-      text-align:left;width:min(90%,900px);
-      margin:-80px auto 100px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.15)
-    }
-    .content h2{text-align:center;color:#333;margin-bottom:16px;font-size:clamp(1.4rem,3.5vw,2rem)}
-    .content p{color:#555;font-size:clamp(1rem,2.5vw,1.1rem);line-height:1.7}
+    body{font-family: Arial, sans-serif; margin:20px;}
+    .wrap{max-width: 1050px; margin:auto;}
+    h1{margin-bottom:8px;}
+    .hint{color:#555; font-size:14px; margin-bottom:10px; line-height:1.4;}
+    table{width:100%; border-collapse: collapse; margin-top:12px;}
+    th,td{border:1px solid #ddd; padding:10px; text-align:center;}
+    th{background:#f4f4f4;}
+    input, select{padding:8px; width:100%; box-sizing:border-box;}
+    .grid{display:grid; grid-template-columns: 1.2fr 1.6fr 1fr 1fr 1fr; gap:10px; margin-top:10px;}
+    button{padding:10px 14px; cursor:pointer; border:0; background:#111; color:#fff; border-radius:8px;}
+    button.secondary{background:#666;}
+    .pos{font-weight:700;}
+    .neg{font-weight:700;}
+    .small{font-size:12px; color:#666;}
   </style>
 </head>
 <body>
-  <!-- البانر -->
-  <header class="banner">
-    <h1>weclosethegap</h1>
-    <p>Eine Initiative, die Menschen durch Bildung, Kreativität und Dialog verbindet.</p>
-    <a class="btn" href="#about">Mehr erfahren</a>
-  </header>
+<div class="wrap">
+  <h1>Geldabrechnung </h1>
+  <div class="hint">
+  
+    <div class="small" id="status">Status: Verbinden…</div>
+  </div>
 
-  <!-- Über uns -->
-  <section id="about" class="content">
-    <h2>Über uns</h2>
-    <p>
-      <b>We Close The Gap</b> ist eine gemeinschaftsorientierte Initiative, die Menschen
-      durch Bildung, Kreativität und Dialog miteinander verbindet. Wir glauben, dass jede
-      Person eine Geschichte zu erzählen hat – und dass wir gemeinsam Brücken des Verständnisses
-      zwischen Kulturen und Generationen bauen können. Unser Ziel ist es, Räume zu schaffen,
-      in denen Ideen, Erfahrungen und Talente aufeinandertreffen.
-    </p>
-  </section>
+  <!-- Neue Transaktion -->
+  <div class="grid">
+    <div>
+      <label>Datum</label>
+      <input id="datum" type="date">
+    </div>
+    <div>
+      <label>Wofür?</label>
+      <input id="wofuer" type="text" placeholder="z.B. Tickets, Essen, Taxi">
+    </div>
+    <div>
+      <label>Von (Zahler:in)</label>
+      <select id="von"></select>
+    </div>
+    <div>
+      <label>An (Empfänger:in)</label>
+      <select id="an"></select>
+    </div>
+    <div>
+      <label>Betrag (€)</label>
+      <input id="betrag" type="number" step="0.01" min="0" placeholder="0,00">
+    </div>
+  </div>
+
+  <div style="display:flex; gap:10px; margin-top:12px;">
+    <button id="addBtn">Transaktion hinzufügen</button>
+  </div>
+
+  <!-- Tabelle: Transaktionen -->
+  <h3 style="margin-top:18px;">Transaktionen</h3>
+  <table id="txTable">
+    <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Wofür?</th>
+        <th>Von</th>
+        <th>An</th>
+        <th>Betrag (€)</th>
+        <th>Löschen</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Tabelle: Abrechnung -->
+  <h3 style="margin-top:18px;">Abrechnung (Übersicht)</h3>
+  <table id="sumTable">
+    <thead>
+      <tr>
+        <th>Person</th>
+        <th>Bezahlt (−)</th>
+        <th>Erhalten (+)</th>
+        <th>Saldo</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, deleteDoc, doc,
+    onSnapshot, query, orderBy, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  // ✅ Fixe Room-ID (nicht im UI sichtbar)
+  const ROOM_ID = "charlotte-jbber-svitlana-maria";
+
+  // ✅ Dein Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDjRuyO5hYk37usT1wA2oay-pDtllWe_bY",
+    authDomain: "geld-49dfa.firebaseapp.com",
+    projectId: "geld-49dfa",
+    storageBucket: "geld-49dfa.firebasestorage.app",
+    messagingSenderId: "581482022444",
+    appId: "1:581482022444:web:e17eb90fcb630284c53389"
+  };
+
+  const statusEl = document.getElementById("status");
+  const setStatus = (txt) => statusEl.textContent = "Status: " + txt;
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  try {
+    await signInAnonymously(auth);
+    setStatus("Verbunden ✅");
+  } catch (e) {
+    console.error(e);
+    setStatus("Fehler beim Verbinden ❌ (Auth/Rules prüfen)");
+  }
+
+  // Personen
+  const persons = ["Charlotte","Jbber","Svitlana","Maria"];
+  const vonSel = document.getElementById("von");
+  const anSel  = document.getElementById("an");
+  vonSel.innerHTML = persons.map(p => `<option value="${p}">${p}</option>`).join("");
+  anSel.innerHTML  = persons.map(p => `<option value="${p}">${p}</option>`).join("");
+
+  // Standarddatum
+  document.getElementById("datum").valueAsDate = new Date();
+
+  let tx = [];
+
+  function money(n){
+    return n.toLocaleString("de-DE", {minimumFractionDigits:2, maximumFractionDigits:2}) + " €";
+  }
+  function escapeHtml(str){
+    return (str || "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
+
+  function render(){
+    const tbody = document.querySelector("#txTable tbody");
+    tbody.innerHTML = tx.map((t) => `
+      <tr>
+        <td>${t.datum}</td>
+        <td>${escapeHtml(t.wofuer)}</td>
+        <td>${t.von}</td>
+        <td>${t.an}</td>
+        <td>${money(t.betrag)}</td>
+        <td><button class="secondary" data-del="${t.id}">Löschen</button></td>
+      </tr>
+    `).join("");
+
+    tbody.querySelectorAll("button[data-del]").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-del");
+        await deleteDoc(doc(db, "rooms", ROOM_ID, "tx", id));
+      });
+    });
+
+    const summary = {};
+    persons.forEach(p => summary[p] = {paid:0, got:0, saldo:0});
+
+    tx.forEach(t => {
+      summary[t.von].paid += t.betrag;
+      summary[t.an].got  += t.betrag;
+    });
+
+    persons.forEach(p => {
+      summary[p].saldo = summary[p].got - summary[p].paid;
+    });
+
+    const sbody = document.querySelector("#sumTable tbody");
+    sbody.innerHTML = persons.map(p => {
+      const s = summary[p];
+      const cls = s.saldo >= 0 ? "pos" : "neg";
+      return `
+        <tr>
+          <td>${p}</td>
+          <td>${money(s.paid)}</td>
+          <td>${money(s.got)}</td>
+          <td class="${cls}">${money(s.saldo)}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // Realtime Listener (Fixe Room)
+  const colRef = collection(db, "rooms", ROOM_ID, "tx");
+  const q = query(colRef, orderBy("createdAt", "asc"));
+
+  onSnapshot(q, (snap) => {
+    tx = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .map(t => ({
+        id: t.id,
+        datum: t.datum || "",
+        wofuer: t.wofuer || "",
+        von: t.von || "",
+        an: t.an || "",
+        betrag: Number(t.betrag || 0)
+      }));
+    render();
+  }, (err) => {
+    console.error(err);
+    setStatus("Fehler beim Lesen ❌ (Firestore Rules?)");
+  });
+
+  // Add transaction
+  document.getElementById("addBtn").addEventListener("click", async () => {
+    const datum = document.getElementById("datum").value;
+    const wofuer = document.getElementById("wofuer").value.trim();
+    const von = vonSel.value;
+    const an = anSel.value;
+    const betrag = parseFloat(document.getElementById("betrag").value);
+
+    if(!datum) return alert("Bitte Datum auswählen.");
+    if(!wofuer) return alert("Bitte 'Wofür?' ausfüllen.");
+    if(von === an) return alert("Von und An dürfen nicht gleich sein.");
+    if(!Number.isFinite(betrag) || betrag <= 0) return alert("Bitte einen gültigen Betrag (> 0) eingeben.");
+
+    try {
+      await addDoc(collection(db, "rooms", ROOM_ID, "tx"), {
+        datum, wofuer, von, an,
+        betrag: Number(betrag.toFixed(2)),
+        createdAt: serverTimestamp()
+      });
+      document.getElementById("betrag").value = "";
+      document.getElementById("wofuer").value = "";
+    } catch (e) {
+      console.error(e);
+      alert("Fehler beim Speichern. Firestore/Rules prüfen.");
+    }
+  });
+</script>
 </body>
 </html>

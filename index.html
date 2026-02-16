@@ -7,8 +7,6 @@
   <style>
     body{font-family: Arial, sans-serif; margin:20px;}
     .wrap{max-width: 1050px; margin:auto;}
-    h1{margin-bottom:8px;}
-    .hint{color:#555; font-size:14px; margin-bottom:10px; line-height:1.4;}
     table{width:100%; border-collapse: collapse; margin-top:12px;}
     th,td{border:1px solid #ddd; padding:10px; text-align:center;}
     th{background:#f4f4f4;}
@@ -19,16 +17,15 @@
     .pos{font-weight:700;}
     .neg{font-weight:700;}
     .small{font-size:12px; color:#666;}
+    .hidden{display:none;}
   </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Geldabrechnung</h1>
-  <div class="hint"style="display:none>
-    <b>Von</b> = zahlt (Verlust) — <b>An</b> = erhält (Gewinn) — <b>Betrag</b> = Summe in €.<br/>
-    Alle Geräte sehen sofort dieselben Daten (Firestore).
-    <div class="small" id="status">Status: Verbinden…</div>
-  </div>
+
+  <!-- مخفي للمستخدم (تقدر تتركه أو تحذفه) -->
+  <h1 class="hidden">Geldabrechnung</h1>
+  <div class="small hidden" id="status">Status: Verbinden…</div>
 
   <!-- Neue Transaktion -->
   <div class="grid">
@@ -100,7 +97,7 @@
   // ✅ Fixe Room-ID (nicht im UI sichtbar)
   const ROOM_ID = "charlotte-jbber-svitlana-maria";
 
-  // ✅ Dein Firebase Config
+  // ✅ Firebase Config (deins)
   const firebaseConfig = {
     apiKey: "AIzaSyDjRuyO5hYk37usT1wA2oay-pDtllWe_bY",
     authDomain: "geld-49dfa.firebaseapp.com",
@@ -111,12 +108,13 @@
   };
 
   const statusEl = document.getElementById("status");
-  const setStatus = (txt) => statusEl.textContent = "Status: " + txt;
+  const setStatus = (txt) => { if(statusEl) statusEl.textContent = "Status: " + txt; };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
+  // Auth (Anonymous)
   try {
     await signInAnonymously(auth);
     setStatus("Verbunden ✅");
@@ -125,14 +123,19 @@
     setStatus("Fehler beim Verbinden ❌ (Auth/Rules prüfen)");
   }
 
-  // Personen
-  const persons = ["Charlotte","Jbber","Svitlana","Maria"];
+  // ✅ Personen:
+  // - allPersons تظهر بالقوائم
+  // - realPersons فقط يظهروا بالحسابات
+  const allPersons  = ["Charlotte","Jbber","Svitlana","Maria","Extern"];
+  const realPersons = ["Charlotte","Jbber","Svitlana","Maria"];
+
+  // Fill selects
   const vonSel = document.getElementById("von");
   const anSel  = document.getElementById("an");
-  vonSel.innerHTML = persons.map(p => `<option value="${p}">${p}</option>`).join("");
-  anSel.innerHTML  = persons.map(p => `<option value="${p}">${p}</option>`).join("");
+  vonSel.innerHTML = allPersons.map(p => `<option value="${p}">${p}</option>`).join("");
+  anSel.innerHTML  = allPersons.map(p => `<option value="${p}">${p}</option>`).join("");
 
-  // Standarddatum
+  // Default date
   document.getElementById("datum").valueAsDate = new Date();
 
   let tx = [];
@@ -147,6 +150,7 @@
   }
 
   function render(){
+    // Transactions table
     const tbody = document.querySelector("#txTable tbody");
     tbody.innerHTML = tx.map((t) => `
       <tr>
@@ -166,20 +170,22 @@
       });
     });
 
+    // Summary (exclude Extern)
     const summary = {};
-    persons.forEach(p => summary[p] = {paid:0, got:0, saldo:0});
+    realPersons.forEach(p => summary[p] = {paid:0, got:0, saldo:0});
 
     tx.forEach(t => {
-      summary[t.von].paid += t.betrag;
-      summary[t.an].got  += t.betrag;
+      if (t.von !== "Extern" && summary[t.von]) summary[t.von].paid += t.betrag;
+      if (t.an  !== "Extern" && summary[t.an])  summary[t.an].got  += t.betrag;
     });
 
-    persons.forEach(p => {
+    realPersons.forEach(p => {
       summary[p].saldo = summary[p].got - summary[p].paid;
     });
 
+    // Render summary table
     const sbody = document.querySelector("#sumTable tbody");
-    sbody.innerHTML = persons.map(p => {
+    sbody.innerHTML = realPersons.map(p => {
       const s = summary[p];
       const cls = s.saldo >= 0 ? "pos" : "neg";
       return `
@@ -193,7 +199,7 @@
     }).join("");
   }
 
-  // Realtime Listener (Fixe Room)
+  // Realtime listener
   const colRef = collection(db, "rooms", ROOM_ID, "tx");
   const q = query(colRef, orderBy("createdAt", "asc"));
 
@@ -242,5 +248,3 @@
 </script>
 </body>
 </html>
-
-

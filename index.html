@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Geldabrechnung</title>
+  <title>Geldabrechnung (Cloud / Realtime)</title>
   <style>
     body{font-family: Arial, sans-serif; margin:20px;}
     .wrap{max-width: 1050px; margin:auto;}
@@ -23,8 +23,12 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Geldabrechnung</h1>
-
+  <h1>Geldabrechnung (Cloud / Realtime)</h1>
+  <div class="hint">
+    <b>Von</b> = zahlt (Verlust) — <b>An</b> = erhält (Gewinn) — <b>Betrag</b> = Summe in €.<br/>
+    Alle Geräte sehen sofort dieselben Daten (Firestore).
+    <div class="small" id="status">Status: Verbinden…</div>
+  </div>
 
   <!-- Neue Transaktion -->
   <div class="grid">
@@ -238,5 +242,3 @@
 </script>
 </body>
 </html>
-
-

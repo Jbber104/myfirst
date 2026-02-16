@@ -1,9 +1,15 @@
+أكيد 👌 هاي نسخة **نهائية نظيفة** بدون ما تظهر **Gruppen-ID (Room)** على الويب.
+الـ Room ثابتة داخل الكود: `charlotte-jbber-svitlana-maria`
+
+انسخها بالكامل كملف `index.html` وشغّلها نفس طريقتك (http / hosting):
+
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Geldabrechnung</title>
+  <title>Geldabrechnung (Cloud / Realtime)</title>
   <style>
     body{font-family: Arial, sans-serif; margin:20px;}
     .wrap{max-width: 1050px; margin:auto;}
@@ -23,9 +29,10 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>Geldabrechnung </h1>
+  <h1>Geldabrechnung (Cloud / Realtime)</h1>
   <div class="hint">
-  
+    <b>Von</b> = zahlt (Verlust) — <b>An</b> = erhält (Gewinn) — <b>Betrag</b> = Summe in €.<br/>
+    Alle Geräte sehen sofort dieselben Daten (Firestore).
     <div class="small" id="status">Status: Verbinden…</div>
   </div>
 
@@ -241,3 +248,6 @@
 </script>
 </body>
 </html>
+```
+
+إذا بدك كمان **تخفي أسماء الأشخاص وتخليها تتغير من مكان واحد** (أو تضيف شخص خامس بسهولة)، قلّي وبعملها لك.
